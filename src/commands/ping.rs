@@ -10,7 +10,8 @@ pub async fn run(_options: &[CommandDataOption], ctx: &Context, command: &Applic
         command.create_interaction_response(&ctx.http, |response| {
             response
                 .kind(InteractionResponseType::ChannelMessageWithSource)
-                .interaction_response_data(|message| message.content("response_content"))
+                .interaction_response_data(|message|
+                    message.content(format!(":ping_pong: pong!")))
         });
 
     if let Err(why) = interaction_response.await {

@@ -27,7 +27,7 @@ impl EventHandler for Bot {
         if let Interaction::ApplicationCommand(command) = interaction {
             let _ = match command.data.name.as_str() {
                 "hello" => (),
-                "ping" => commands::ping::run(&command.data.options, &ctx, &command).await,
+                "пинг" => commands::ping::run(&command.data.options, &ctx, &command).await,
                 command_name => unknow_command_run(command_name, &ctx, &command).await,
             };
         }
