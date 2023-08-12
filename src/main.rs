@@ -46,7 +46,7 @@ async fn init(
         local_uri = "postgres://mantis:{secrets.PASSWORD}@localhost/mantisdb"
     )] pool: PgPool,
 ) -> Result<Service, shuttle_runtime::Error> {
-    pool.execute(include_str!("../schema.sql"))
+    pool.execute(include_str!("../sql/start.sql"))
         .await
         .map_err(CustomError::new)?;
 
@@ -54,17 +54,17 @@ async fn init(
         info!("`DISCORD_TOKEN` not found!");
         "Token not found".to_string()
     });
+
+    let bot = Bot { database: pool.clone() };
     let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
     let client = Client::builder(&token, intents)
-        .event_handler(Bot)
+        .event_handler(bot)
         
         .await
         .expect("Err creating client");
 
     let router = Router::new()
         .route("/", get(hello_world))
-        .route("/todo", get(set_database))
-        .route("/todo/:id", get(get_database))
         .with_state(pool);
 
     Ok(Service {

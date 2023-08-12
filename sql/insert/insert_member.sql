@@ -1,0 +1,1 @@
+INSERT INTO members (user_id, guild_id) VALUES ($1, $2) RETURNING user_id, guild_id;

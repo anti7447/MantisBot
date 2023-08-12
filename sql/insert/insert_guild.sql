@@ -1,0 +1,1 @@
+INSERT INTO guilds (id, guildname, language) VALUES ($1, $2, $3) RETURNING id, guildname, language;
