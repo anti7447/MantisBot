@@ -47,6 +47,7 @@ impl EventHandler for Bot {
         let _ = GuildId::set_application_commands(&guild_id, &ctx.http, |commands| {
             commands
                 .create_application_command(|command| commands::ping::register(command))
+                .create_application_command(|command| commands::language::register(command))
         }).await.unwrap();
     }
 
@@ -54,7 +55,8 @@ impl EventHandler for Bot {
         if let Interaction::ApplicationCommand(command) = interaction {
             let _ = match command.data.name.as_str() {
                 "hello" => (),
-                "пинг" => commands::ping::run(&command.data.options, &ctx, &command).await,
+                "ping" => commands::ping::run(&command.data.options, &ctx, &command, &self.database).await,
+                "language" => commands::language::run(&command.data.options, &ctx, &command, &self.database).await,
                 command_name => unknow_command_run(command_name, &ctx, &command).await,
             };
         }

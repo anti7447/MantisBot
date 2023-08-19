@@ -14,6 +14,8 @@ use router::*;
 mod bot;
 use bot::Bot;
 
+pub mod translator;
+
 pub struct Service {
     discord_bot: Client,
     router: Router,
@@ -44,8 +46,9 @@ async fn init(
     #[shuttle_secrets::Secrets] secrets: SecretStore,
     #[shuttle_aws_rds::Postgres(
         local_uri = "postgres://mantis:{secrets.PASSWORD}@localhost/mantisdb"
-    )] pool: PgPool,
+    )] pool: PgPool
 ) -> Result<Service, shuttle_runtime::Error> {
+
     pool.execute(include_str!("../sql/start.sql"))
         .await
         .map_err(CustomError::new)?;
