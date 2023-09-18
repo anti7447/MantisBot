@@ -1,5 +1,3 @@
-# hello-world = HПРи, world!
-# intro = Д, { $name }.
 ping-command = :ping_pong: понг!
 
 lang-command-ttl = Язык
