@@ -1,15 +1,18 @@
+use std::path::PathBuf;
+
 use shuttle_runtime::CustomError;
+use shuttle_secrets::SecretStore;
 use sqlx::{PgPool, Executor};
+use tower_http::services::ServeDir;
 use tracing::info;
 use axum::Router;
 use serenity::prelude::*;
-use shuttle_secrets::SecretStore;
 use axum::routing::get;
 
 mod commands;
 
 mod router;
-use router::*;
+use router::hello_world;
 
 mod bot;
 use bot::Bot;
@@ -44,6 +47,7 @@ impl shuttle_runtime::Service for Service {
 #[shuttle_runtime::main]
 async fn init(
     #[shuttle_secrets::Secrets] secrets: SecretStore,
+    #[shuttle_static_folder::StaticFolder(folder = "pages")] static_folder: PathBuf,
     #[shuttle_aws_rds::Postgres(
         local_uri = "postgres://mantis:{secrets.PASSWORD}@localhost/mantisdb"
     )] pool: PgPool
@@ -67,7 +71,8 @@ async fn init(
         .expect("Err creating client");
 
     let router = Router::new()
-        .route("/", get(hello_world))
+        .route("/old", get(hello_world))
+        .nest_service("/", ServeDir::new(static_folder))
         .with_state(pool);
 
     Ok(Service {
