@@ -47,7 +47,6 @@ impl shuttle_runtime::Service for Service {
 #[shuttle_runtime::main]
 async fn init(
     #[shuttle_secrets::Secrets] secrets: SecretStore,
-    #[shuttle_static_folder::StaticFolder(folder = "pages")] static_folder: PathBuf,
     #[shuttle_aws_rds::Postgres(
         local_uri = "postgres://mantis:{secrets.PASSWORD}@localhost/mantisdb"
     )] pool: PgPool
@@ -72,7 +71,7 @@ async fn init(
 
     let router = Router::new()
         .route("/old", get(hello_world))
-        .nest_service("/", ServeDir::new(static_folder))
+        .nest_service("/", ServeDir::new(PathBuf::from("pages")))
         .with_state(pool);
 
     Ok(Service {
