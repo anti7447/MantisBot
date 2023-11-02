@@ -6,3 +6,6 @@ lang-command-dst =
         [ru] русский
        *[en] английский
     }
+    
+selfrole-create = Пока так
+selfrole-unknow = Команда `{$command}` не найдена

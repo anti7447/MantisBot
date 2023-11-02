@@ -1,10 +1,10 @@
-use serenity::model::prelude::{Interaction, InteractionResponseType};
+use serenity::model::prelude::{Interaction, InteractionResponseType, Reaction};
 use serenity::{async_trait, model::prelude::GuildId};
 use serenity::model::channel::Message;
 use serenity::model::gateway::Ready;
 use serenity::model::application::interaction::application_command::ApplicationCommandInteraction;
 use serenity::prelude::*;
-use tracing::info;
+use tracing::{info, error};
 use sqlx::PgPool;
 
 use crate::commands;
@@ -48,15 +48,18 @@ impl EventHandler for Bot {
             commands
                 .create_application_command(|command| commands::ping::register(command))
                 .create_application_command(|command| commands::language::register(command))
+                .create_application_command(|command| commands::selfrole::register(command))
         }).await.unwrap();
     }
 
     async fn interaction_create(&self, ctx: Context, interaction: Interaction) {
         if let Interaction::ApplicationCommand(command) = interaction {
+            println!("Calling: `{}`", command.data.name);
             let _ = match command.data.name.as_str() {
                 "hello" => (),
                 "ping" => commands::ping::run(&command.data.options, &ctx, &command, &self.database).await,
                 "language" => commands::language::run(&command.data.options, &ctx, &command, &self.database).await,
+                "selfrole" => commands::selfrole::run(&command.data.options, &ctx, &command, &self.database).await,
                 command_name => unknow_command_run(command_name, &ctx, &command).await,
             };
         }
@@ -91,11 +94,20 @@ impl EventHandler for Bot {
             .await
             .map_err(|err| format!("Error in 'INSERT' Member table: {}", err));
     }
+
+    async fn reaction_add(&self, _ctx: Context, add_reaction: Reaction) {
+        println!("Нажал! {}", add_reaction.emoji);
+    }
+
+    async fn reaction_remove(&self, _ctx: Context, removed_reaction: Reaction) {
+        println!("Отнажал! {}", removed_reaction.emoji);
+    }
 }
 // --------------------------------------------------------------- //
 
 async fn unknow_command_run(command_name: &str, ctx: &Context, command: &ApplicationCommandInteraction) {
-    info!("{} comman not found", command_name);
+    error!("{} comman not found", command_name);
+    info!("Выше, ага-ага");
     let interaction_response =
         command.create_interaction_response(&ctx.http, |response| {
             response
@@ -107,6 +119,6 @@ async fn unknow_command_run(command_name: &str, ctx: &Context, command: &Applica
         });
 
     if let Err(why) = interaction_response.await {
-        eprintln!("Cannot respond to slash command: {}", why);
+        error!("Cannot respond to slash command: {}", why);
     }
 }

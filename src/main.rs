@@ -62,7 +62,7 @@ async fn init(
     });
 
     let bot = Bot { database: pool.clone() };
-    let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
+    let intents = GatewayIntents::all(); // ::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
     let client = Client::builder(&token, intents)
         .event_handler(bot)
         

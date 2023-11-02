@@ -6,3 +6,6 @@ lang-command-dst =
         [ru] Russian
        *[en] English
     }
+
+selfrole-create = To be comtinuous
+selfrole-unknow = `{$command}` unknow
