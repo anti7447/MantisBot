@@ -1,3 +1,15 @@
 {
-    "DISCORD_TOKEN": "Bot's token"
+    "token": "Bot's token",
+    "clientId": "12345678",
+	"guildId": "12345678",
+    "pool": {
+        "host": "localhost",
+		"user": "postgres",
+		"password": "1234",
+		"database": "postgres",
+		"connectionString": "postgres://postgres:1234@localhost/postgres",
+		"max": 30,
+		"idleTimeoutMillis": 30000,
+		"connectionTimeoutMillis": 2000
+    }
 }

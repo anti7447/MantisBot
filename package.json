@@ -2,12 +2,12 @@
   "name": "mantis-bot",
   "version": "0.1.0",
   "description": "Discord bot",
-  "main": "./prod/mantis.js",
+  "main": "./src/mantis.js",
   "scripts": {
-    "prestart": "tsc",
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn ./src/**.ts"
+    "dev": "ts-node-dev --respawn ./src/**.ts",
+    "depcom": "node ./src/deploy-commands.js"
   },
   "repository": {
     "type": "git",
