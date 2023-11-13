@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('../config.json');
-const { Database } = require('./database');
+const  database = require('./database');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -29,12 +29,9 @@ require('./events')(client)
 
 client.login(token);
 
-/* Here error: Database is not a constructor */
-// let db = new Database("asd");
-
 // (async () => {
 // 	console.log("DB");
-// 	const pool = await db.getPool();
+// 	const pool = await database.getPool();
 
 // 	const result = await pool.query('select id from guilds;')
 // 	console.log(result.rows)
