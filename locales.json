@@ -1,0 +1,14 @@
+{
+    "ru": {
+        "ping-command": ":ping_pong: понг!",
+
+        "lang-command-ttl": "Язык",
+        "lang-command-dst": "Вы успешно сменили язык на {$lang -> [ru] русский *[en] английский}"
+    },
+    "en": {
+        "ping-command": ":ping_pong: pong!",
+
+        "lang-command-ttl": "Language",
+        "lang-command-dst": "You have successfully changed your language to {$lang -> [ru] Russian *[en] English}"
+    }
+}
