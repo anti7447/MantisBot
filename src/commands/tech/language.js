@@ -1,4 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { getPool } = require('../../database');
+const { tr } = require('../../l10n');
 
 module.exports = {
 	data: {
@@ -31,6 +32,17 @@ module.exports = {
         dm_permission: false
     },
 	async execute(interaction) {
-		await interaction.reply('Pong!');
+        const guildId = interaction.guildId;
+        const option = interaction.options.get('language', true);
+        const pool = await getPool();
+
+        const result = await pool.query('UPDATE guilds SET language=\'$1\' WHERE id = \'$2\' RETURNING language'
+            .replace('$1', option.value)
+            .replace('$2', guildId));
+
+        const lang = result[0];
+
+		// await interaction.reply(tr(lang, 'lang-command-dst', {lang: lang}));
+        await interaction.reply("tr(lang, 'lang-command-dst', {lang: lang})");
 	},
 };

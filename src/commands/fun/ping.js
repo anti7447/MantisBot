@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { tr } = require('../../l10n');
+const comPar = require('../../command-params')
 
 module.exports = {
 	data: {
@@ -8,6 +10,9 @@ module.exports = {
         description_localizations: {ru: "Команда пинга"}
 	},
 	async execute(interaction) {
-		await interaction.reply('Pong!');
+		const guildId = interaction.guildId;
+		const lang = (await comPar.language(guildId)).lang;
+
+		await interaction.reply(tr(lang, 'ping-command'));
 	},
 };
