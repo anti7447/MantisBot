@@ -7,7 +7,7 @@
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn ./src/**.ts",
-    "depcom": "node ./src/deploy-commands.js"
+    "slash": "node ./src/deploy-commands.js"
   },
   "repository": {
     "type": "git",

@@ -41,9 +41,13 @@ module.exports = {
             .replace('$2', guildId));
 
         const lang = result.rows[0].language;
-        console.log(lang);
 
-		await interaction.reply(tr(lang, 'lang-command-dst', {lang: lang}));
-        // await interaction.reply("tr(lang, 'lang-command-dst', {lang: lang})");
+        const embed = {
+            title: tr(lang, 'lang-command-ttl', {lang: lang}),
+            description: tr(lang, 'lang-command-dst', {lang: lang}),
+            color: 0x44ea62
+        }
+
+		await interaction.reply({embeds: [embed]});
 	},
 };
