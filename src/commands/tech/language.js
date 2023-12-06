@@ -40,9 +40,10 @@ module.exports = {
             .replace('$1', option.value)
             .replace('$2', guildId));
 
-        const lang = result[0];
+        const lang = result.rows[0].language;
+        console.log(lang);
 
-		// await interaction.reply(tr(lang, 'lang-command-dst', {lang: lang}));
-        await interaction.reply("tr(lang, 'lang-command-dst', {lang: lang})");
+		await interaction.reply(tr(lang, 'lang-command-dst', {lang: lang}));
+        // await interaction.reply("tr(lang, 'lang-command-dst', {lang: lang})");
 	},
 };

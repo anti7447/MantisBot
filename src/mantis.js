@@ -5,7 +5,10 @@ const { token } = require('../config.json');
 // const  database = require('./database');
 const { tr } = require('./l10n')
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMessages
+] });
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
