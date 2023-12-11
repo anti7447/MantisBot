@@ -1,7 +1,7 @@
 module.exports = {
 	data: {
 		name: "selfrole",
-        name_localizations: {ru: "автороль"},
+        name_localizations: {ru: "роль-за-реакцию"},
         description: "Manage roles for reaction",
         description_localizations: {ru: "Управляйте ролями за реакцию!"},
         options: [
